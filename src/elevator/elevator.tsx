@@ -11,12 +11,21 @@ export default function Elevator() {
 
   return(
     <>
-      State: {state.value}
-<br />
-      activeFloor: {state.context.activeFloor}
-<br />
-      {/* doorOpen: {state.context.doorOpen} */}
-<br />
+      <section>
+        <ul>
+          <li>
+            State: {state.value as string}
+          </li>
+          <li>
+            activeFloor: {state.context.activeFloor}
+          </li>
+          <li>
+            Floors on queue: {state.context.floorsOnQueue.join(',')}
+          </li>
+        </ul>
+      </section>
+
+      <br />
       
       <ExternalView
         state={state.value}

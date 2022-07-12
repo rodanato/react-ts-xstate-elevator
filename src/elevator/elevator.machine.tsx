@@ -42,7 +42,7 @@ const elevatorMachine = createMachine<
     idle: {
       on: {
         CALL: {
-          target: 'closing',
+          target: 'moving',
           actions: ['addFloorToQueue']
         }
       }
@@ -54,6 +54,11 @@ const elevatorMachine = createMachine<
       entry: [
         'setNewActiveFloor'
       ],
+      on: {
+        CALL: {
+          actions: ['addFloorToQueue']
+        }
+      }
     },
     closing: {
       after: [
@@ -67,18 +72,25 @@ const elevatorMachine = createMachine<
           target: 'moving',
           cond: (ctx, event) => ctx.floorsOnQueue.length > 0 
         },
-      ]
+      ],
+      on: {
+        CALL: {
+          actions: ['addFloorToQueue']
+        }
+      }
     },
     moving: {
       entry: send(
         { type: 'TIMER' },
         {
-          delay: (ctx: any, event) => ctx.floorMovingTime * Math.abs((ctx.activeFloor - ctx.floorsOnQueue[0])),
-          id: 'movingTimer' // give the event a unique ID
+          delay: (ctx: any, event) => ctx.floorsOnQueue.length > 0 ? ctx.floorMovingTime * Math.abs((ctx.activeFloor - ctx.floorsOnQueue[0])) : 1200,
         }
       ),
       on: {
         TIMER: { target: 'opening' },
+        CALL: {
+          actions: ['addFloorToQueue']
+        }
       }
     },
   },
@@ -92,8 +104,8 @@ const elevatorMachine = createMachine<
     },
   },
   delays: {
-    OPENING: 8000,
-    CLOSING: 1000,
+    OPENING: 6000,
+    CLOSING: 1200,
   }
 });
 

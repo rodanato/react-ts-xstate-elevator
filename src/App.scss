@@ -36,39 +36,32 @@ $floor-height: 70px;
     position: absolute;
     left: 50px;
     top: $door-width * 0.7;
+    z-index: 1;
   }
-  &__doors {
-    width: $door-width * 2;
-    height: 100%;
-    display: flex;
-    z-index: 2;
-    position: relative;
-
-    &--open {
-      .elevator__door--left {
-        left: -$door-width;
-      }
-      .elevator__door--right {
-        right: -$door-width;
-      }
-    }
-  }
-
   &__door {
     width: $door-width;
     height: 100%;
     box-sizing: border-box;
     background-color: beige;
-    position: relative;
+    position: absolute;
     transition:all 1000ms ease-in;
+    z-index: 2;
 
     &--left {
       left: 0;
       border-right: 1px solid #333;
+
+      &.elevator__door--open {
+        left: -$door-width;
+      }
     }
     &--right {
       right: 0;
       border-left: 1px solid #333;
+
+      &.elevator__door--open {
+        right: -$door-width;
+      }
     }
   }
 

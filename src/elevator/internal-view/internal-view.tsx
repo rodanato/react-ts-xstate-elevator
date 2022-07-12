@@ -6,10 +6,8 @@ export default function InternalView({state, data, send}: {state: any, data: Ele
 
   return (
     <section className="elevator__internal-view">
-      <div className={`elevator__doors ${state.match('opening') && 'elevator__doors--open'}`}>
-        <div className="elevator__door elevator__door--left"></div>
-        <div className="elevator__door elevator__door--right"></div>
-      </div>
+      <div className={`elevator__door elevator__door--left ${state.match('opening') ? 'elevator__door--open' : ''}`}></div>
+      <div className={`elevator__door elevator__door--right ${state.match('opening') ? 'elevator__door--open' : ''}`}></div>
 
       <div className='elevator__buttons'>
         <button onClick={() => send({ type: "CALL", floor: 1})}>1</button>
